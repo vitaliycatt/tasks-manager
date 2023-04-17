@@ -1,36 +1,24 @@
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-
-const todoData = [
-  {
-    id: 0,
-    taskMessage: "Read book 25 min per day",
-  },
-  {
-    id: 1,
-    taskMessage: "Sell something to get a little bit money",
-  },
-  {
-    id: 2,
-    taskMessage: "Call to my granfather & grandmother tomorrow",
-  },
-];
+import { useSelector, useDispatch } from "react-redux";
+import { addTask } from "../../actions";
 
 export const Tasks = () => {
-  const [tasks, setTasks] = useState(todoData);
+  const tasks = useSelector((state) => state.tasks);
+
+  const dispatch = useDispatch();
+
   const { reset, register, handleSubmit } = useForm({
-    defaultValues: todoData,
+    defaultValues: tasks,
   });
 
   const onSubmit = (data) => {
+    const taskDataPrepatation = {
+      id: tasks.length,
+      taskMessage: data.todoCreator,
+    };
+
     if (data.todoCreator) {
-      setTasks([
-        ...tasks,
-        {
-          id: todoData.length,
-          taskMessage: data.todoCreator,
-        },
-      ]);
+      dispatch(addTask(taskDataPrepatation));
       reset();
     }
   };
@@ -41,11 +29,13 @@ export const Tasks = () => {
         <div className="flex justify-between items-center mb-5">
           <input
             type="text"
-            className="mr-5 w-full"
+            className="py-1 px-4 w-full rounded-l"
             {...register("todoCreator")}
           />
 
-          <button type="submit">Create</button>
+          <button type="submit" className="px-3 py-1 bg-slate-200 rounded-r">
+            Create
+          </button>
         </div>
 
         <div>

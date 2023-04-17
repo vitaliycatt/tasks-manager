@@ -1,6 +1,6 @@
 import { Tasks } from "./pages";
 import { Layout } from "./components";
-import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export const App = () => (
   <>
