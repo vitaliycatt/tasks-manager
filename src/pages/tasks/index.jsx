@@ -1,31 +1,28 @@
 import { useForm } from "react-hook-form";
-import { addTask, removeTask } from "../../actions";
 import { useSelector, useDispatch } from "react-redux";
+import { createTask, updateTask, removeTask } from "../../actions";
 
 export const Tasks = () => {
   const tasks = useSelector((state) => state.tasks);
-
   const dispatch = useDispatch();
 
-  const { reset, register, handleSubmit } = useForm({
-    defaultValues: tasks,
-  });
+  const { reset, register, handleSubmit } = useForm();
 
-  const onSubmit = (data) => {
+  const onCreateTask = (data) => {
     const taskDataPrepatation = {
       id: tasks.length,
       taskMessage: data.todoCreator,
     };
 
     if (data.todoCreator) {
-      dispatch(addTask(taskDataPrepatation));
+      dispatch(createTask(taskDataPrepatation));
       reset();
     }
   };
 
   return (
     <>
-      <form className="w-80" onSubmit={handleSubmit(onSubmit)}>
+      <form className="w-80" onSubmit={handleSubmit(onCreateTask)}>
         <div className="flex justify-between items-center mb-5">
           <input
             type="text"
@@ -49,13 +46,16 @@ export const Tasks = () => {
               <div className="w-full mr-5">{task.taskMessage}</div>
 
               <div className="flex items-center justify-center">
-                {/* <button className="px-2 py-[6px] bg-slate-200 text-sm rounded-l mr-[1px]">
+                <button
+                  className="px-2 py-[6px] bg-slate-200 text-sm rounded-l mr-[1px]"
+                  onClick={() => dispatch(updateTask(task, index))}
+                >
                   Edit
-                </button> */}
+                </button>
 
                 <button
                   className="px-2 py-[6px] bg-slate-200 rounded-r text-sm"
-                  onClick={() => dispatch(removeTask(index))}
+                  onClick={() => dispatch(removeTask(task))}
                 >
                   Del
                 </button>

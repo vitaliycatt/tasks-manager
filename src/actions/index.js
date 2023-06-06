@@ -1,13 +1,21 @@
-export const addTask = (newTask) => {
+export const createTask = (task) => {
   return {
-    type: "ADD_TASK",
-    newTask,
+    type: "CREATE_TASK",
+    createdTask: task,
   };
 };
 
-export const removeTask = (removedTask) => {
+export const removeTask = (task) => {
   return {
     type: "REMOVE_TASK",
-    removedTask,
+    taskId: task.id,
+  };
+};
+
+export const updateTask = (updatedTask, taskId) => {
+  return {
+    type: "UPDATE_TASK",
+    updatedTask,
+    taskId,
   };
 };
